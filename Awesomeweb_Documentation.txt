@@ -1,0 +1,56 @@
+Deploy a website with the domain awesomeweb and subdomains (shop.awesomeweb, blog.awesomeweb, and main.awesomeweb)
+
+1. Install Nginx
+sudo apt update
+sudo apt install nginx -y
+
+2. Set Up hosts File for DNS Resolution
+sudo nano/etc/hosts
+Add the following lines to map the domain and subdomains
+<instance ip> awesomeweb
+<instance ip> main.awesomeweb
+<instance ip> blog.awesomeweb
+<instance ip> shop.awesomeweb
+
+3. Create Website Content
+Create directories to hold the content for awesomeweb and its subdomains.sudo mkdir -p /var/www/awesomeweb
+sudo mkdir -p /var/www/main.awesomeweb
+sudo mkdir -p /var/www/blog.awesomeweb
+sudo mkdir -p /var/www/shop.awesomeweb
+For each domain, create a simple HTML file (index.html) as uploaded in repo
+
+4. Configure Nginx
+Create configuration files for each domain and subdomain. The configuration will point each domain and subdomain to its respective directory.
+
+Example of main.awesomeweb
+sudo nano /etc/nginx/sites-available/main.awesomeweb
+ and then add the following lines 
+server {
+    listen 80;
+    server_name main.awesomeweb;
+
+    root /var/www/main.awesomeweb;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+
+5. Enable the Nginx Configuration
+Create symbolic links to enable the sites:
+sudo ln -s /etc/nginx/sites-available/awesomeweb /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/main.awesomeweb /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/blog.awesomeweb /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/shp.awesomeweb /etc/nginx/sites-enabled/
+
+6. Restart Nginx
+Restart Nginx to apply the changes:
+
+7. Test in Browser
+Now, in your browser, you can navigate to the following URLs to access each site:
+
+http://awesomeweb
+http://main.awesomeweb
+http://blog.awesomeweb
+http://shp.awesomeweb
