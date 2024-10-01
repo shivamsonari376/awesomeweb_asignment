@@ -1,0 +1,84 @@
+Step 1: Install VirtualBox on Linux (Ubuntu)
+
+Download VirtualBox:
+
+Visit VirtualBox Download Page.
+Select the appropriate package for your Linux distribution (Ubuntu/Debian systems will use .deb packages).
+Install VirtualBox:
+
+Open a terminal and navigate to the directory where you downloaded the .deb file.
+Run the following command:
+bash
+Copy code
+sudo dpkg -i <VirtualBox_package_name>.deb
+If you get errors about missing dependencies, run:
+bash
+Copy code
+sudo apt --fix-broken install
+Add User to vboxusers Group:
+
+After installing VirtualBox, add your user to the vboxusers group to manage virtual machines:
+bash
+Copy code
+sudo usermod -aG vboxusers $(whoami)
+
+
+Step 2: Set Up a Virtual Machine with Ubuntu 22.04
+
+Download Ubuntu 22.04 Image:
+Visit OsBoxes and download the Ubuntu 22.04 image.
+Create Virtual Machine in VirtualBox:
+Launch VirtualBox and click on New to create a new VM.
+Name the VM (e.g., Ubuntu-22.04), and select Linux as the type and Ubuntu (64-bit) as the version.
+Allocate memory (2GB or more is recommended).
+Choose Use an existing virtual hard disk file, and select the .vdi image downloaded from OsBoxes.
+Finish the setup and start the VM.
+Step 3: Install Nginx on the VM
+Install Nginx:
+
+Open a terminal inside the Ubuntu VM.
+Run the following commands to update the package list and install Nginx:
+bash
+
+sudo apt update
+sudo apt install nginx
+Start Nginx:
+
+After installation, start the Nginx service:
+
+
+sudo systemctl start nginx
+Verify Installation:
+
+Open a browser within your VM or on the host machine and navigate to http://<VM_IP>. You should see the Nginx welcome page.
+Step 4: Scan the VM with Nmap from the Host Machine
+Get the VM’s IP Address:
+
+In your VM, run:
+
+ip a
+Note the IP address
+
+Install Nmap on Host Machine:
+
+
+sudo apt install nmap  # For Linux
+
+Scan the VM for Open Ports:
+
+On your host machine, run an Nmap scan to detect open ports:
+
+nmap <VM_IP>
+
+Nmap Output
+bash
+Copy code
+PORT    STATE SERVICE
+22/tcp  open  ssh
+80/tcp  open  http
+443/tcp closed https
+
+Step 6: Observations on Open Ports
+Port 22: The SSH port is open, allowing remote connections.
+Port 80: This is the default port for HTTP services, which confirms Nginx is running.
+Port 443: Closed because SSL (HTTPS) is not configured.
